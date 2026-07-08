@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Meridian Heights - B2B Real Estate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-400-normal.woff2') format('woff2');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-500-normal.woff2') format('woff2');
+            font-weight: 500;
+        }
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-600-normal.woff2') format('woff2');
+            font-weight: 600;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjQ.woff2') format('woff2');
+            font-weight: 400;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c8c5cb",
+                      "on-tertiary-fixed-variant": "#494640",
+                      "on-tertiary-fixed": "#1d1b16",
+                      "surface-container-highest": "#e2e2e2",
+                      "tertiary-fixed": "#e8e2d9",
+                      "status-error": "#EF4444",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#88837c",
+                      "surface-container-high": "#e8e8e8",
+                      "on-secondary-container": "#63646c",
+                      "status-warning": "#F5D04E",
+                      "on-tertiary": "#ffffff",
+                      "surface-alt": "#F5F6F7",
+                      "tertiary": "#000000",
+                      "secondary-container": "#e3e1ec",
+                      "surface-dim": "#dadada",
+                      "on-error-container": "#93000a",
+                      "surface-container-low": "#f3f3f3",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-container": "#1b1b1e",
+                      "surface-container": "#eeeeee",
+                      "tertiary-fixed-dim": "#cbc6bd",
+                      "primary-fixed": "#e4e1e6",
+                      "inverse-on-surface": "#f0f1f1",
+                      "outline": "#77767b",
+                      "on-error": "#ffffff",
+                      "background": "#f9f9f9",
+                      "on-secondary-fixed": "#1a1b22",
+                      "error": "#ba1a1a",
+                      "status-info": "#3B82F6",
+                      "border-subtle": "#E4E4E7",
+                      "surface-variant": "#e2e2e2",
+                      "on-surface-variant": "#47464b",
+                      "surface-bright": "#f9f9f9",
+                      "inverse-surface": "#2f3131",
+                      "on-primary": "#ffffff",
+                      "on-primary-container": "#858387",
+                      "tertiary-container": "#1d1b16",
+                      "secondary": "#5d5e66",
+                      "on-surface": "#1a1c1c",
+                      "secondary-fixed": "#e3e1ec",
+                      "inverse-primary": "#c8c5ca",
+                      "surface": "#f9f9f9",
+                      "on-background": "#1a1c1c",
+                      "secondary-fixed-dim": "#c6c5cf",
+                      "on-primary-fixed-variant": "#47464a",
+                      "status-success": "#19A874",
+                      "on-primary-fixed": "#1b1b1e",
+                      "surface-tint": "#5f5e61",
+                      "primary-fixed-dim": "#c8c5ca",
+                      "on-secondary": "#ffffff",
+                      "primary": "#000000",
+                      "on-secondary-fixed-variant": "#46464e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "240px",
+                      "sidebar-collapsed": "64px",
+                      "gutter": "16px",
+                      "density-md": "12px",
+                      "density-xs": "4px",
+                      "density-sm": "8px",
+                      "unit": "4px",
+                      "container-margin": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Geist"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Geist"
+                      ],
+                      "headline-md": [
+                              "Geist"
+                      ],
+                      "label-md": [
+                              "Geist"
+                      ],
+                      "label-sm": [
+                              "Geist"
+                      ],
+                      "meta-text": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "meta-text": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md h-full flex flex-col antialiased">
+<!-- TopNavBar -->
+<nav class="docked full-width top-0 h-16 bg-surface border-b border-border-subtle shadow-sm flex justify-between items-center px-container-margin w-full shrink-0 z-50">
+<div class="flex items-center gap-4">
+<a class="font-headline-sm text-headline-sm font-bold text-primary" href="#">B2B Real Estate</a>
+</div>
+<div class="flex items-center gap-density-md w-full max-w-md mx-4">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-12 bg-surface-alt border border-border-subtle rounded-lg text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none placeholder:text-on-surface-variant" placeholder="Search properties..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-on-surface-variant bg-surface border border-border-subtle px-1.5 py-0.5 rounded text-[10px] font-meta-text">
+<span>⌘</span><span>K</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+</button>
+<button class="h-8 w-8 rounded-full bg-surface-alt border border-border-subtle overflow-hidden flex items-center justify-center ml-2">
+<img alt="User Avatar" class="h-full w-full object-cover" data-alt="A small, professional headshot of an executive in a modern office environment, with clean natural lighting and a minimalist background, suitable for a B2B platform avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhZ3gfUzrvau06feNIZvLOZsWEXAnuvTrnZz6ZR4TEYrRJDphLtjibqwskyWl-JhTsj_8Dg8RJUnN9TmNFTkOoE9nntUnJOhVncjEr_0M4D_P4ZxXQNhseG_UVzlbgGljn7hjCZ_533XV2wqdYJ2woLvhAwD69sOMBFU1_pQNu7PmJC-qnzuRpSN3LXokWfID8XxvCraYKmKNWbvdoyf51CQG3B7iT-Gdl6V2Aer-wTr-3IR99tCL7PJ8ElBuc3dAtcULpvIj2pIs"/>
+</button>
+</div>
+</nav>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="docked left-0 h-full w-sidebar-width transition-all duration-300 bg-surface-container-low text-primary flex flex-col border-r border-border-subtle py-container-margin px-density-sm shrink-0 hidden md:flex z-40">
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-secondary-container text-on-secondary-container font-bold font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">domain</span>
+<span>Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+<span>Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span>Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-border-subtle space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<!-- Hero Gallery -->
+<div class="w-full h-[400px] md:h-[500px] lg:h-[600px] relative bg-surface-alt border-b border-border-subtle">
+<div class="w-full h-full bg-cover bg-center" data-alt="A wide, sweeping architectural photograph of a sleek, modern commercial skyscraper exterior at dusk. The building features extensive glass facades reflecting a gradient sunset, sharp geometric lines, and a minimalist entry plaza. The mood is corporate, high-end, and technically advanced." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDD2U0J0wAmsXrR2wRkdVj2JMTmOgWqseL_YAqeaMW3sZEkzECIGs24Zz80ZrPW2jqTSPxybs5vtcrMvV5S2xm_SpWYJHAjEJcZ72ChO_ks0ztzFjdx1So9XpcR2XN1cTxvShG86KASacxtcS6pJ-_2sw0TMejXSAw3kWDCXknsQKn2YL6dCbDiazTKly2DIK-ViWf0_9AR1sQ2GMPuHVD9pWl4NQr1YxHHTcElJnfRxPQ6doR-FYrhAGHXNNIwc3EBJNM_C04cnHg')"></div>
+<div class="absolute bottom-container-margin right-container-margin flex gap-2">
+<button class="px-4 py-2 bg-surface text-primary border border-border-subtle rounded-lg shadow-sm font-label-md text-label-md flex items-center gap-2 hover:bg-surface-alt transition-colors">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+                        View All Photos
+                    </button>
+<button class="p-2 bg-surface text-primary border border-border-subtle rounded-lg shadow-sm flex items-center justify-center hover:bg-surface-alt transition-colors">
+<span class="material-symbols-outlined text-[18px]">360</span>
+</button>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="max-w-7xl mx-auto px-container-margin py-container-margin">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Left Column (Main Details) -->
+<div class="flex-1 lg:w-2/3 space-y-8">
+<!-- Header & Title -->
+<div class="space-y-4">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">The Meridian Heights</h1>
+<div class="flex items-center gap-2 text-on-surface-variant font-meta-text text-meta-text">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>100 Innovation Way, Financial District, NY 10004</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-headline-lg text-headline-lg text-primary">$2,450,000</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-1">Or $12,500/mo Lease</div>
+</div>
+</div>
+<!-- Key Stats Pills -->
+<div class="flex flex-wrap gap-3 pt-4 border-t border-border-subtle">
+<div class="px-3 py-1.5 bg-surface-alt border border-border-subtle rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">bed</span>
+<span class="font-label-md text-label-md text-primary">4 Beds</span>
+</div>
+<div class="px-3 py-1.5 bg-surface-alt border border-border-subtle rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">shower</span>
+<span class="font-label-md text-label-md text-primary">3 Baths</span>
+</div>
+<div class="px-3 py-1.5 bg-surface-alt border border-border-subtle rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">square_foot</span>
+<span class="font-label-md text-label-md text-primary">2,800 sqft</span>
+</div>
+<div class="px-3 py-1.5 bg-surface-alt border border-border-subtle rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">calendar_month</span>
+<span class="font-label-md text-label-md text-primary">Built 2021</span>
+</div>
+<div class="px-3 py-1.5 bg-status-info/10 text-status-info border border-status-info/20 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Available Now</span>
+</div>
+</div>
+</div>
+<!-- Description Section -->
+<section class="space-y-4 pt-4">
+<h2 class="font-headline-md text-headline-md text-primary">Property Overview</h2>
+<div class="font-body-lg text-body-lg text-on-surface-variant space-y-4 leading-relaxed">
+<p>The Meridian Heights represents a pinnacle of modern commercial real estate engineering, designed specifically for high-growth tech and finance sectors. This 2,800 square foot class-A space features an open-concept floor plan that maximizes natural light through floor-to-ceiling smart glass windows, optimizing energy efficiency while providing panoramic views of the financial district.</p>
+<p>Constructed in 2021 with sustainability and technical resilience in mind, the property boasts redundant fiber optic connectivity, a dedicated server room with independent climate control, and a customizable HVAC matrix. The interior styling is minimalist and functional, utilizing polished concrete floors, exposed acoustic ceilings, and precision-engineered acoustic glass partitions to foster both collaboration and focused work environments.</p>
+</div>
+</section>
+<!-- Amenities Grid -->
+<section class="space-y-4 pt-8 border-t border-border-subtle">
+<h2 class="font-headline-md text-headline-md text-primary">Technical Amenities</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">ac_unit</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Smart HVAC</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-0.5">Zoned climate matrix</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">local_parking</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Secure Parking</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-0.5">4 Reserved spaces + EV</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">security</span>
+<div>
+<div class="font-label-md text-label-md text-primary">24/7 Security</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-0.5">Biometric access control</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">router</span>
+<div>
+<div class="font-label-md text-label-md text-primary">High-Speed Fiber</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-0.5">Redundant 10Gbps lines</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">meeting_room</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Boardrooms</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-0.5">2 Fully equipped suites</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">kitchen</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Pantry / Cafe</div>
+<div class="font-meta-text text-meta-text text-on-surface-variant mt-0.5">Commercial grade setup</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Sticky Agent Contact) -->
+<div class="w-full lg:w-1/3">
+<div class="sticky top-[88px] bg-surface border border-border-subtle rounded-lg p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
+<div class="flex flex-col items-center text-center border-b border-border-subtle pb-6 mb-6">
+<div class="w-20 h-20 rounded-full overflow-hidden border border-border-subtle mb-4">
+<img alt="Agent Photo" class="w-full h-full object-cover" data-alt="A clean, professional headshot of a female real estate agent in a dark tailored blazer, against a stark white background. The lighting is crisp and the composition is centered, conveying a nerdy, functional, and highly competent persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn-G1axcgSuH2Rcod-BAls48ubuDaeWUMAwdzhFnSPBsW_dq85CwklUndma61WFTTtgO_1Hskc2F6oe1P65V1MEPSKYWxG2Q2E-avIZaRH4PLzu-P6DNzCw6Ixw_4-b38sR4_poeh1XAO60XP6dx9vzLUSF3jeTYkhid3Q9iQeW2KEx8GIPU7Pnir8FBAxYzOXJcBcHBAxnphshsEANg2sCS3rSVkbVjt4VtkCp7iJaBWyYdke29cyg8KhMcImXNkZQnPKv31RDL4"/>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Sarah Jenkins</h3>
+<p class="font-meta-text text-meta-text text-on-surface-variant mt-1">Senior Commercial Broker</p>
+<div class="flex items-center gap-1 mt-2 text-status-warning">
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]">star_half</span>
+<span class="font-meta-text text-meta-text text-on-surface-variant ml-1">(48 Reviews)</span>
+</div>
+</div>
+<div class="space-y-4">
+<button class="w-full h-10 bg-primary text-on-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                                    Schedule a Visit
+                                </button>
+<button class="w-full h-10 bg-surface text-primary border border-border-subtle rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-surface-alt transition-colors">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+                                    Request Info Pack
+                                </button>
+</div>
+<div class="mt-6 pt-6 border-t border-border-subtle space-y-3">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span class="font-body-md text-body-md">+1 (555) 019-2834</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">business</span>
+<span class="font-body-md text-body-md">Precision Realty Group</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="font-body-md text-body-md">License # NY-8472910</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

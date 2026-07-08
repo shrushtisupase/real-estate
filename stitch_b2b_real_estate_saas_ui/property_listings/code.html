@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>B2B Real Estate - Property Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..900&amp;family=Inter:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "status-info": "#3B82F6",
+                      "surface-variant": "#e2e2e2",
+                      "on-background": "#1a1c1c",
+                      "secondary-fixed-dim": "#c6c5cf",
+                      "inverse-on-surface": "#f0f1f1",
+                      "on-secondary-fixed-variant": "#46464e",
+                      "surface-bright": "#f9f9f9",
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#63646c",
+                      "status-warning": "#F5D04E",
+                      "primary-fixed-dim": "#c8c5ca",
+                      "on-primary-fixed-variant": "#47464a",
+                      "error": "#ba1a1a",
+                      "on-surface": "#1a1c1c",
+                      "tertiary-fixed": "#e8e2d9",
+                      "surface-container": "#eeeeee",
+                      "on-error": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#1a1b22",
+                      "tertiary": "#000000",
+                      "inverse-primary": "#c8c5ca",
+                      "secondary": "#5d5e66",
+                      "surface-tint": "#5f5e61",
+                      "on-primary-container": "#858387",
+                      "secondary-container": "#e3e1ec",
+                      "on-surface-variant": "#47464b",
+                      "surface": "#f9f9f9",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed-dim": "#cbc6bd",
+                      "on-tertiary-fixed-variant": "#494640",
+                      "on-primary-fixed": "#1b1b1e",
+                      "surface-container-high": "#e8e8e8",
+                      "primary-container": "#1b1b1e",
+                      "surface-dim": "#dadada",
+                      "tertiary-container": "#1d1b16",
+                      "surface-container-low": "#f3f3f3",
+                      "primary-fixed": "#e4e1e6",
+                      "secondary-fixed": "#e3e1ec",
+                      "primary": "#000000",
+                      "status-error": "#EF4444",
+                      "status-success": "#19A874",
+                      "surface-container-highest": "#e2e2e2",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#2f3131",
+                      "border-subtle": "#E4E4E7",
+                      "error-container": "#ffdad6",
+                      "background": "#f9f9f9",
+                      "outline-variant": "#c8c5cb",
+                      "surface-alt": "#F5F6F7",
+                      "on-tertiary-fixed": "#1d1b16",
+                      "on-tertiary-container": "#88837c",
+                      "on-primary": "#ffffff",
+                      "outline": "#77767b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "16px",
+                      "sidebar-width": "240px",
+                      "sidebar-collapsed": "64px",
+                      "container-margin": "24px",
+                      "density-xs": "4px",
+                      "density-sm": "8px",
+                      "density-md": "12px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Geist"
+                      ],
+                      "headline-md": [
+                              "Geist"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "meta-text": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Geist"
+                      ],
+                      "label-md": [
+                              "Geist"
+                      ],
+                      "headline-lg": [
+                              "Geist"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "meta-text": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAFAFA;
+            color: #1a1c1c;
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dadada;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c8c5cb;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden antialiased font-body-lg text-body-lg">
+<!-- SideNavBar -->
+<aside class="hidden md:flex bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary-fixed font-label-md text-label-md left-0 h-screen w-sidebar-width transition-all duration-300 border-r border-border-subtle dark:border-outline-variant flex-col h-full py-container-margin px-density-sm shrink-0 z-20">
+<!-- Brand / Header -->
+<div class="flex items-center gap-3 px-3 mb-8">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">domain</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed">B2B Real Estate</h1>
+<p class="font-meta-text text-meta-text text-on-surface-variant">Management Portal</p>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 space-y-1">
+<!-- Active Item: Properties (Since this is a property search page) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
+<span>Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<!-- User Profile Area at bottom of sidebar -->
+<div class="mt-auto pt-4 border-t border-border-subtle flex items-center gap-3 px-3">
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-border-subtle" data-alt="A small, professional headshot photo of a business user in a modern office setting, well-lit, sharp focus, natural skin tones, minimal background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAB3QUNmAlM8qQmTJhjjHfGnH74rrZ1GhZepAoQOg20o-r-1N45dkx4sq6Jzx0ArUbjvCQAfnrPGahfDS6ICubO9_yI4s9miuD4OUgGZYjEtECLWvJwRSIBUYQqkSoIoYfijvgI7pS-I0RuvQdt-jE8EOOHIPA4HdHv7X712AULePfpplR1NE99BbuR6fgzEsKtWPOOJEXiROZZKficgiaDFMXKxF-iJ_eFoiiCGO8ryCfTgm7q0chPqu_pTIp-3yKuxBM-dCBdCk"/>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md truncate text-on-surface">Alex Carter</p>
+<p class="font-meta-text text-meta-text text-on-surface-variant truncate">Acme Corp</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 h-screen bg-background relative z-10">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary-fixed font-label-md text-label-md w-full h-16 border-b border-border-subtle dark:border-outline-variant shadow-sm dark:shadow-none flex justify-between items-center px-container-margin h-full w-full shrink-0 relative z-20">
+<!-- Left: Mobile Menu & Breadcrumb/Title -->
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden sm:flex items-center gap-2 text-on-surface-variant font-meta-text text-meta-text">
+<span>Properties</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-bold">Search</span>
+</div>
+</div>
+<!-- Center: Search Bar -->
+<div class="flex-1 max-w-xl mx-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full h-10 pl-10 pr-12 bg-white border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface placeholder-on-surface-variant focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]" placeholder="Search by address, ID, or market..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1">
+<span class="px-1.5 py-0.5 rounded border border-border-subtle bg-surface-alt font-meta-text text-[11px] text-on-surface-variant font-medium tracking-wide shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">⌘K</span>
+</div>
+</div>
+</div>
+<!-- Right: Actions & Profile -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-status-error rounded-full border border-white"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary hover:bg-surface-container p-2 rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Filter Bar -->
+<div class="bg-surface border-b border-border-subtle px-container-margin py-3 flex flex-wrap gap-4 items-center justify-between shrink-0 z-10 relative shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
+<!-- Filters -->
+<div class="flex items-center gap-3 overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
+<!-- Price Dropdown -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white border border-border-subtle rounded-DEFAULT font-label-md text-label-md text-on-surface hover:bg-surface-alt transition-colors whitespace-nowrap shadow-[0_1px_2px_0_rgba(0,0,0,0.02)]">
+<span>Price Range</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">arrow_drop_down</span>
+</button>
+<!-- Property Type Dropdown -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white border border-border-subtle rounded-DEFAULT font-label-md text-label-md text-on-surface hover:bg-surface-alt transition-colors whitespace-nowrap shadow-[0_1px_2px_0_rgba(0,0,0,0.02)]">
+<span>Property Type</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">arrow_drop_down</span>
+</button>
+<!-- Location Dropdown -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white border border-border-subtle rounded-DEFAULT font-label-md text-label-md text-on-surface hover:bg-surface-alt transition-colors whitespace-nowrap shadow-[0_1px_2px_0_rgba(0,0,0,0.02)]">
+<span>Location</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">arrow_drop_down</span>
+</button>
+<!-- More Filters -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-surface-alt border border-border-subtle rounded-DEFAULT font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>More Filters</span>
+</button>
+</div>
+<!-- View Toggle -->
+<div class="flex items-center bg-surface-alt p-1 rounded-lg border border-border-subtle hidden lg:flex">
+<button class="px-3 py-1.5 rounded-DEFAULT font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+                    Grid
+                </button>
+<button class="px-3 py-1.5 rounded-DEFAULT font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">map</span>
+                    Map
+                </button>
+<!-- Active State -->
+<button class="px-3 py-1.5 rounded-DEFAULT font-label-sm text-label-sm bg-white text-primary font-bold shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-border-subtle flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">vertical_split</span>
+                    Split
+                </button>
+</div>
+</div>
+<!-- Split View Container -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left: Property Grid (60%) -->
+<div class="w-full lg:w-[60%] h-full overflow-y-auto p-container-margin border-r border-border-subtle bg-background">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Available Properties</h2>
+<p class="font-meta-text text-meta-text text-on-surface-variant mt-1">Showing 142 results in Austin, TX</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-meta-text text-meta-text text-on-surface-variant">Sort by:</span>
+<button class="flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-surface-variant transition-colors">
+                            Relevance <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Bento Grid Layout for Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-white rounded-lg border border-border-subtle overflow-hidden hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 group cursor-pointer flex flex-col">
+<div class="relative h-48 w-full bg-surface-alt">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern, brutalist office building exterior, concrete and glass facade, sharp architectural lines, sunny day with clear blue sky, minimal surrounding landscape, high-end commercial real estate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT_IKqqz8i-tGpLIgjPw_280vSPPPZfa0zwd5VLjaL6z49JzlzLaWorNT19XA8LoIVdWcnJbhO8Tjjy8t52OIqm24KcsdmG6EjXbutVeB40qf24kfZMVizQrBfDxxLglDUEuvG3FjLHwESE56OZb41Qc2kXwth0OwGTsBSWMoOJKPYUq12euZmJvNC7Ul_uENSsH-23LZigUokBtmStN32IuCCtJQQ55Z1DCwgDRiKzxDnpRmFReTTVKlChmLk_1IkB2eJ0s19rkM"/>
+<!-- Price Badge -->
+<div class="absolute top-3 left-3 bg-primary text-white font-label-md text-label-md px-2.5 py-1 rounded shadow-md">
+                                $4.2M
+                            </div>
+<!-- Status Chip -->
+<div class="absolute top-3 right-3 bg-status-success/10 text-[#0f6a49] border border-status-success/20 font-label-sm text-label-sm px-2 py-0.5 rounded-full backdrop-blur-sm">
+                                Available
+                            </div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-status-info transition-colors">The Foundry Block</h3>
+<p class="font-meta-text text-meta-text text-on-surface-variant mt-1 truncate">1200 E 4th St, Austin, TX 78702</p>
+<div class="mt-4 pt-4 border-t border-border-subtle flex flex-wrap gap-2 mt-auto">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">business</span> Class A
+                                </span>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">square_foot</span> 45,000 sqft
+                                </span>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">local_parking</span> 120 Spaces
+                                </span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-lg border border-border-subtle overflow-hidden hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 group cursor-pointer flex flex-col">
+<div class="relative h-48 w-full bg-surface-alt">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Interior shot of a large, empty industrial warehouse space, polished concrete floors, exposed steel beams, high ceilings, bright natural light pouring in through skylights, clean and minimal industrial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHOI5o_qs8BdqgtB0GXABUczYPNYnpUZhvnJi6P7igHnxnCGHXyRt_bAq9KAd1CtJscSRsTRfHGNcCsVeKnMUKxD3R7NuiLS_zbD6GTfBhodlN8mywSywgbMiJNxeeMpr7RSnyaFeEyQ7uVKBHelh1jJMwq83aA4Iddcbr-ETc2yyWl1Lsc1kzULJb9BPrtwzsSpA33RIgL5IJcKr1-_V0NPYclGPP4xrw1DmLnSuYUeqkNvcybdiONlMGzw63ENagtqUMiL9qG_o"/>
+<!-- Price Badge -->
+<div class="absolute top-3 left-3 bg-primary text-white font-label-md text-label-md px-2.5 py-1 rounded shadow-md">
+                                $2.8M
+                            </div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-status-info transition-colors">Southpark Logistics Center</h3>
+<p class="font-meta-text text-meta-text text-on-surface-variant mt-1 truncate">4500 South Congress, Austin, TX</p>
+<div class="mt-4 pt-4 border-t border-border-subtle flex flex-wrap gap-2 mt-auto">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">warehouse</span> Industrial
+                                </span>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">square_foot</span> 85,000 sqft
+                                </span>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">height</span> 32' Clear
+                                </span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-lg border border-border-subtle overflow-hidden hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 group cursor-pointer flex flex-col">
+<div class="relative h-48 w-full bg-surface-alt">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, modern mid-rise office building with a glass facade reflecting a sunset sky, surrounded by manicured green spaces, corporate park setting, high-end architectural photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWN39SlI3gGg81A6W9YF4Y8dhE8PRkiUiNRHzOY0ynhdskuR6vyTP-saj42gd_rSfyXADTJkb_F663ILO3eTtpg3Go02FKhwOHvTgmjtS-Slb-M7wscrfajEslhEDLNbrogQ4MUiMS3xYve20RT_gxCwYLExm-7SV8ixPSvtfLnoSXNt57u95fkwG2PXOXg4SWrWs8O3MPSfBGqyFUj5tcupQHYOGyaemsxOvI9AbMIIG17q0orOOdzGxLACYRAkInQZful93Fh3M"/>
+<!-- Price Badge -->
+<div class="absolute top-3 left-3 bg-primary text-white font-label-md text-label-md px-2.5 py-1 rounded shadow-md">
+                                $8.5M
+                            </div>
+<!-- Status Chip -->
+<div class="absolute top-3 right-3 bg-status-warning/10 text-[#8a721c] border border-status-warning/30 font-label-sm text-label-sm px-2 py-0.5 rounded-full backdrop-blur-sm">
+                                Under Offer
+                            </div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-status-info transition-colors">Domain Tower III</h3>
+<p class="font-meta-text text-meta-text text-on-surface-variant mt-1 truncate">11000 Alterra Pkwy, Austin, TX</p>
+<div class="mt-4 pt-4 border-t border-border-subtle flex flex-wrap gap-2 mt-auto">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">business</span> Class A+
+                                </span>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">square_foot</span> 120,000 sqft
+                                </span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white rounded-lg border border-border-subtle overflow-hidden hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 group cursor-pointer flex flex-col">
+<div class="relative h-48 w-full bg-surface-alt flex items-center justify-center">
+<!-- Using a pattern placeholder for missing image to show robustness -->
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#18181B 1px, transparent 1px); background-size: 16px 16px;"></div>
+<span class="material-symbols-outlined text-[48px] text-border-subtle relative z-10">image_not_supported</span>
+<!-- Price Badge -->
+<div class="absolute top-3 left-3 bg-primary text-white font-label-md text-label-md px-2.5 py-1 rounded shadow-md z-20">
+                                $1.4M
+                            </div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-status-info transition-colors">Eastside Retail Shell</h3>
+<p class="font-meta-text text-meta-text text-on-surface-variant mt-1 truncate">2200 E 6th St, Austin, TX</p>
+<div class="mt-4 pt-4 border-t border-border-subtle flex flex-wrap gap-2 mt-auto">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">storefront</span> Retail
+                                </span>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-subtle font-meta-text text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] mr-1">square_foot</span> 5,500 sqft
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-8 flex justify-center pb-8">
+<button class="px-6 py-2 bg-white border border-border-subtle rounded-DEFAULT font-label-md text-label-md text-on-surface hover:bg-surface-alt transition-colors shadow-[0_1px_2px_0_rgba(0,0,0,0.02)]">
+                        Load More Results
+                    </button>
+</div>
+</div>
+<!-- Right: Interactive Map (40%) -->
+<div class="hidden lg:block w-[40%] h-full bg-[#f3f4f6] relative">
+<!-- Map Background Image Placeholder -->
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="A clean, minimalist street map of Austin, Texas, rendered in a light mode palette with soft greys and off-whites, no text labels, technical aesthetic resembling Mapbox or Google Maps muted style." data-location="Austin, TX" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBX3ny7wwGHQlMZ4FoPngqVYtV_FZwmeHS6Qc12ptBhLVM15ExnnoV-cw51XR0fHDH_qpryJElW-CgaVrYQ57RTKKA9ByVmL3SHMIMWQJ_t1Mr7x2v7K4Ebfq4CXsakdVtyAkc7PAKNtE7SAPKmjU8pEZue1xW-oS8PD-Z_YgOnRfBEe-g5L2PFyN-Z82SsaXrclIouYDKx19oOZnEkwdF2rbCa1ErrgNS4hQP0rUPKbCTzqIUBaS9jcnGkvmXp_ssnyfTom7ilXt4')"></div>
+<!-- Map UI Controls -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+<button class="w-8 h-8 bg-white border border-border-subtle rounded flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-alt shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="w-8 h-8 bg-white border border-border-subtle rounded flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-alt shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="w-8 h-8 mt-2 bg-white border border-border-subtle rounded flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-alt shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] transition-colors">
+<span class="material-symbols-outlined text-[20px]">my_location</span>
+</button>
+</div>
+<!-- Map Pins (Static examples) -->
+<!-- Pin 1 (Active/Hovered state example) -->
+<div class="absolute top-[30%] left-[40%] z-20 group cursor-pointer">
+<div class="bg-primary text-white font-label-sm text-label-sm px-2.5 py-1 rounded-DEFAULT shadow-[0_2px_8px_rgba(0,0,0,0.2)] border border-primary relative transform group-hover:scale-110 transition-transform">
+                        $4.2M
+                        <!-- Caret -->
+<div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rotate-45 border-r border-b border-primary"></div>
+</div>
+</div>
+<!-- Pin 2 -->
+<div class="absolute top-[45%] left-[60%] z-10 group cursor-pointer">
+<div class="bg-white text-on-surface font-label-sm text-label-sm px-2.5 py-1 rounded-DEFAULT shadow-[0_1px_4px_rgba(0,0,0,0.1)] border border-border-subtle relative transform group-hover:scale-110 group-hover:border-primary group-hover:z-20 transition-all">
+                        $2.8M
+                        <!-- Caret -->
+<div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-r border-b border-border-subtle group-hover:border-primary transition-colors"></div>
+</div>
+</div>
+<!-- Pin 3 (Cluster Example) -->
+<div class="absolute top-[60%] left-[30%] z-10 cursor-pointer">
+<div class="w-10 h-10 bg-primary/90 rounded-full flex items-center justify-center text-white font-label-md text-label-md shadow-[0_2px_8px_rgba(0,0,0,0.15)] border-2 border-white hover:bg-primary transition-colors">
+                        12
+                    </div>
+</div>
+<!-- Pin 4 -->
+<div class="absolute top-[25%] left-[70%] z-10 group cursor-pointer">
+<div class="bg-white text-on-surface font-label-sm text-label-sm px-2.5 py-1 rounded-DEFAULT shadow-[0_1px_4px_rgba(0,0,0,0.1)] border border-border-subtle relative transform group-hover:scale-110 group-hover:border-primary group-hover:z-20 transition-all">
+                        $8.5M
+                        <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-r border-b border-border-subtle group-hover:border-primary transition-colors"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
