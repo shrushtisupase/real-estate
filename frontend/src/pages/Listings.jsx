@@ -151,9 +151,10 @@ export default function Listings() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
             {filteredProperties.map((property) => (
-              <div
+              <Link
                 key={property._id}
-                className="bg-white border border-line overflow-hidden shadow-sm hover:shadow-draft hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between"
+                to={`/properties/${property._id}`}
+                className="bg-white border border-line overflow-hidden shadow-sm hover:shadow-draft hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between text-left"
               >
                 <div>
                   {/* Property Image */}
@@ -214,16 +215,13 @@ export default function Listings() {
                       </span>
                     </div>
                     
-                    <Link
-                      to={`/properties/${property._id}`}
-                      className="inline-flex items-center gap-0.5 text-xs font-mono font-bold uppercase tracking-wider text-brick hover:text-brick-deep transition-colors"
-                    >
-                      Inspect Specs
+                    <span className="inline-flex items-center gap-0.5 text-xs font-mono font-bold uppercase tracking-wider text-brick group-hover:text-brick-deep transition-colors">
+                      View Details
                       <ArrowUpRight size={14} />
-                    </Link>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

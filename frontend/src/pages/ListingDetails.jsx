@@ -3,13 +3,17 @@ import { useParams, Link } from 'react-router-dom';
 import { usePropertyStore } from '../store/propertyStore';
 import { useLeadStore } from '../store/leadStore';
 import { useAuthStore } from '../store/authStore';
-import { MapPin, Bed, Bath, Layout, FileText, Send, CheckCircle, ArrowLeft, Mail, Phone, Calendar } from 'lucide-react';
+import { MapPin, Bed, Bath, Layout, FileText, Send, CheckCircle, ArrowLeft, Mail, Phone, Calendar, X } from 'lucide-react';
 
 export default function ListingDetails() {
   const { id } = useParams();
   const { currentProperty, fetchPropertyById, loading: propertyLoading, error: propertyError } = usePropertyStore();
   const { createLead, loading: leadLoading } = useLeadStore();
   const { user } = useAuthStore();
+
+  // Gallery and Lightbox states
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Form states
   const [buyerName, setBuyerName] = useState('');
@@ -141,14 +145,48 @@ export default function ListingDetails() {
 
               {/* Image Gallery */}
               <div className="space-y-4 mb-8">
-                <div className="aspect-[16/9] bg-paper-dark border border-line relative overflow-hidden flex items-center justify-center">
+                <div className="aspect-[16/9] bg-paper-dark border border-line relative overflow-hidden flex items-center justify-center group/main-img">
                   <div className="absolute inset-0 bg-blueprint-grid opacity-10 pointer-events-none" />
                   {currentProperty.images && currentProperty.images.length > 0 ? (
-                    <img
-                      src={currentProperty.images[0]}
-                      alt={currentProperty.title}
-                      className="w-full h-full object-cover"
-                    />
+                    <>
+                      <img
+                        src={currentProperty.images[activeImageIndex]}
+                        alt={currentProperty.title}
+                        className="w-full h-full object-cover cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                        onClick={() => setIsLightboxOpen(true)}
+                      />
+                      
+                      {/* Navigation Arrows */}
+                      {currentProperty.images.length > 1 && (
+                        <>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndex((prev) => (prev === 0 ? currentProperty.images.length - 1 : prev - 1));
+                            }}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 bg-ink/75 hover:bg-brick text-white p-2 rounded-sm opacity-0 group-hover/main-img:opacity-100 transition-all cursor-pointer"
+                            aria-label="Previous image"
+                          >
+                            <ArrowLeft size={16} />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndex((prev) => (prev === currentProperty.images.length - 1 ? 0 : prev + 1));
+                            }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-ink/75 hover:bg-brick text-white p-2 rounded-sm opacity-0 group-hover/main-img:opacity-100 transition-all cursor-pointer"
+                            aria-label="Next image"
+                          >
+                            <ArrowLeft size={16} className="rotate-180" />
+                          </button>
+                          
+                          {/* Index indicator */}
+                          <div className="absolute top-3 left-3 bg-ink/70 text-white font-mono text-[9px] px-2 py-0.5 uppercase tracking-wider">
+                            Photo {activeImageIndex + 1} / {currentProperty.images.length}
+                          </div>
+                        </>
+                      )}
+                    </>
                   ) : (
                     <div className="text-line flex flex-col items-center">
                       <Layout size={48} />
@@ -161,9 +199,18 @@ export default function ListingDetails() {
                 {currentProperty.images && currentProperty.images.length > 1 && (
                   <div className="grid grid-cols-4 gap-4">
                     {currentProperty.images.map((img, index) => (
-                      <div key={index} className="aspect-[4/3] bg-paper border border-line overflow-hidden">
+                      <button
+                        key={index}
+                        onClick={() => setActiveImageIndex(index)}
+                        className={`aspect-[4/3] bg-paper border overflow-hidden transition-all relative cursor-pointer ${
+                          activeImageIndex === index ? 'border-brick ring-1 ring-brick' : 'border-line hover:border-ink-soft'
+                        }`}
+                      >
                         <img src={img} alt={`thumbnail-${index}`} className="w-full h-full object-cover" />
-                      </div>
+                        {activeImageIndex === index && (
+                          <div className="absolute inset-0 bg-brick/10 pointer-events-none" />
+                        )}
+                      </button>
                     ))}
                   </div>
                 )}
@@ -393,6 +440,60 @@ export default function ListingDetails() {
         </div>
 
       </div>
+
+      {/* Lightbox / Fullscreen Modal */}
+      {isLightboxOpen && currentProperty.images && currentProperty.images.length > 0 && (
+        <div
+          className="fixed inset-0 bg-ink/95 backdrop-blur-sm z-[100] flex items-center justify-center p-4 sm:p-10"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          <button
+            onClick={() => setIsLightboxOpen(false)}
+            className="absolute top-4 right-4 text-white hover:text-brick p-2.5 bg-ink/50 rounded-full transition-colors cursor-pointer"
+            aria-label="Close fullscreen"
+          >
+            <X size={24} />
+          </button>
+
+          {/* Main Lightbox Image */}
+          <div 
+            className="relative max-w-5xl max-h-[85vh] w-full flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={currentProperty.images[activeImageIndex]}
+              alt={currentProperty.title}
+              className="max-w-full max-h-[80vh] object-contain border border-line/20 shadow-2xl"
+            />
+
+            {/* Navigation Arrows */}
+            {currentProperty.images.length > 1 && (
+              <>
+                <button
+                  onClick={() => setActiveImageIndex((prev) => (prev === 0 ? currentProperty.images.length - 1 : prev - 1))}
+                  className="absolute left-2 sm:-left-16 top-1/2 -translate-y-1/2 bg-ink/80 hover:bg-brick text-white p-3 rounded-full transition-all cursor-pointer border border-line/20"
+                  aria-label="Previous"
+                >
+                  <ArrowLeft size={20} />
+                </button>
+                <button
+                  onClick={() => setActiveImageIndex((prev) => (prev === currentProperty.images.length - 1 ? 0 : prev + 1))}
+                  className="absolute right-2 sm:-right-16 top-1/2 -translate-y-1/2 bg-ink/80 hover:bg-brick text-white p-3 rounded-full transition-all cursor-pointer border border-line/20"
+                  aria-label="Next"
+                >
+                  <ArrowLeft size={20} className="rotate-180" />
+                </button>
+              </>
+            )}
+
+            {/* Caption/Counter */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-white/70 font-mono text-xs text-center w-full">
+              Photo {activeImageIndex + 1} of {currentProperty.images.length} — Click outside to close
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
