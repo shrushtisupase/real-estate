@@ -86,7 +86,7 @@ export const checkAndSendFollowUpReminders = async () => {
   }
 };
 
-/**
+/*
  * Initializes all cron jobs for the application.
  */
 export const initCronJobs = () => {
