@@ -28,12 +28,14 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // create user in db
+    const userRole = role || 'buyer';
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
       phone,
-      role: role || 'buyer', 
+      role: userRole,
+      isVerified: userRole === 'agent' ? false : true,
     });
 
     if (user) {
@@ -42,6 +44,7 @@ export const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isVerified: user.isVerified,
         token: generateToken(user._id),
       });
     } else {
@@ -67,6 +70,7 @@ export const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isVerified: user.isVerified,
         token: generateToken(user._id),
       });
     } else {

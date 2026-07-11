@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Meridian — Find your next address</title>
+    
+    <!-- SEO & Meta -->
+    <meta name="description" content="A real estate listing platform. Search, tour and move into homes built for the way you actually live." />
+    <meta name="theme-color" content="#F4F4F0" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Meridian — Find your next address" />
+    <meta property="og:description" content="A real estate listing platform. Search, tour and move into homes built for the way you actually live." />
+    <meta property="og:url" content="https://meridian.app/" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;0,900;1,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: { DEFAULT: '#0D1828', soft: '#2C4059' },
+                        paper: { DEFAULT: '#F4F4F0', dark: '#E8E8E3' },
+                        blueprint: { DEFAULT: '#1A4789', deep: '#112F5C' },
+                        brick: { DEFAULT: '#B4432C', deep: '#8A3321' },
+                        brass: { DEFAULT: '#C19B48', light: '#DFBD73' },
+                        line: { DEFAULT: '#D1CEC1' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Zilla Slab', 'serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'draft': '0 25px 50px -12px rgba(13, 24, 40, 0.25)',
+                        'solid': '4px 4px 0px 0px rgba(13, 24, 40, 1)',
+                    },
+                    animation: {
+                        'twinkle': 'twinkle 4s ease-in-out infinite',
+                        'draw-line': 'drawLine 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                    },
+                    keyframes: {
+                        twinkle: {
+                            '0%, 100%': { opacity: 0.3 },
+                            '50%': { opacity: 1 },
+                        },
+                        drawLine: {
+                            '0%': { width: '0%' },
+                            '100%': { width: '100%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base & Interaction */
+        body {
+            cursor: crosshair;
+            background-color: #F4F4F0;
+        }
+        a, button, .interactive {
+            cursor: pointer;
+            /* Ensure tap targets are at least 44px on mobile for accessibility */
+            touch-action: manipulation; 
+        }
+
+        /* Blueprint Grid Background */
+        .bg-blueprint-grid {
+            background-image:
+                linear-gradient(rgba(26, 71, 137, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 71, 137, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+        }
+
+        /* Diagonal Drafting Pattern */
+        .bg-draft-pattern {
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(13, 24, 40, 0.03) 0,
+                rgba(13, 24, 40, 0.03) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+        }
+
+        /* Hamburger Transition */
+        .hamburger-line {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        }
+        #menuToggle.is-active #line1 { transform: translateY(7px) rotate(45deg); }
+        #menuToggle.is-active #line2 { opacity: 0; }
+        #menuToggle.is-active #line3 { transform: translateY(-7px) rotate(-45deg); }
+
+        /* Scroll Reveal Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Dimension Line Animation */
+        .dim-line-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 1px;
+            background-color: theme('colors.line.DEFAULT');
+            width: 0;
+            z-index: -1;
+        }
+        .dim-line-wrapper.active::after {
+            animation: drawLine 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+    </style>
+</head>
+<body class="font-sans text-ink bg-paper antialiased selection:bg-blueprint selection:text-white overflow-x-hidden">
+
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-ink text-white p-3 z-50 rounded-md">Skip to content</a>
+
+    <header class="fixed top-0 w-full z-50 bg-paper/80 backdrop-blur-md border-b border-line transition-all duration-300" id="siteHeader">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 flex items-center justify-between py-3 sm:py-4">
+            
+            <!-- Brand -->
+            <a href="#top" class="flex items-center gap-2 sm:gap-3 group" aria-label="Meridian Home">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10 flex-none transition-transform duration-500 group-hover:rotate-90" viewBox="0 0 48 48" aria-hidden="true">
+                    <polygon points="6,17 24,6 42,17" fill="#0D1828"/>
+                    <rect x="9" y="17" width="30" height="26" rx="1" fill="none" stroke="#0D1828" stroke-width="2.4"/>
+                    <rect x="21" y="33" width="6" height="10" fill="#B4432C"/>
+                    <rect x="13" y="21" width="6" height="6" fill="#1A4789"/>
+                    <rect x="29" y="21" width="6" height="6" fill="#1A4789"/>
+                </svg>
+                <span class="font-serif font-bold text-xl sm:text-2xl tracking-tight text-ink">
+                    Meridian
+                </span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 lg:gap-10" aria-label="Primary navigation">
+                <a href="#listings" class="font-mono text-xs lg:text-sm uppercase tracking-widest text-ink-soft hover:text-brick relative group p-2">
+                    Listings
+                    <span class="absolute bottom-1 left-2 w-0 h-[2px] bg-brick transition-all duration-300 group-hover:w-[calc(100%-16px)]"></span>
+                </a>
+                <a href="#process" class="font-mono text-xs lg:text-sm uppercase tracking-widest text-ink-soft hover:text-brick relative group p-2">
+                    Process
+                    <span class="absolute bottom-1 left-2 w-0 h-[2px] bg-brick transition-all duration-300 group-hover:w-[calc(100%-16px)]"></span>
+                </a>
+                <a href="#agents" class="font-mono text-xs lg:text-sm uppercase tracking-widest text-ink-soft hover:text-brick relative group p-2">
+                    Agents
+                </a>
+            </nav>
+
+            <!-- Actions & Enhanced Mobile Menu Toggle -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <a href="#listings" class="hidden lg:flex items-center gap-2 bg-blueprint hover:bg-blueprint-deep text-white px-5 py-2.5 rounded-sm font-semibold text-sm transition-colors shadow-[2px_2px_0px_0px_rgba(13,24,40,1)] hover:shadow-none hover:translate-y-[2px] hover:translate-x-[2px]">
+                    View listings
+                    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                
+                <!-- Explicit Menu/Close Button -->
+                <button class="relative z-[60] flex items-center gap-3 p-2 group hover:opacity-70 transition-opacity" id="menuToggle" aria-expanded="false" aria-controls="siteDrawer" aria-label="Toggle Navigation Menu">
+                    <span class="font-mono text-xs sm:text-sm uppercase tracking-widest font-semibold text-ink w-10 text-right transition-all" id="menuLabel">Menu</span>
+                    <div class="relative flex flex-col justify-between w-6 h-4">
+                        <span class="w-full h-[2px] bg-ink hamburger-line origin-center" id="line1"></span>
+                        <span class="w-full h-[2px] bg-ink hamburger-line origin-center" id="line2"></span>
+                        <span class="w-full h-[2px] bg-ink hamburger-line origin-center" id="line3"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="fixed inset-0 bg-paper z-50 transform -translate-y-full transition-transform duration-500 cubic-bezier(0.77,0,0.175,1)" id="siteDrawer" role="dialog" aria-label="Site navigation drawer" aria-hidden="true">
+        <div class="h-full pt-24 sm:pt-28 pb-10 px-5 sm:px-6 lg:px-10 max-w-7xl mx-auto flex flex-col lg:flex-row justify-between lg:items-center overflow-y-auto">
+            
+            <nav class="flex flex-col gap-6 sm:gap-8" aria-label="Full site menu">
+                <a href="#listings" class="drawer-link group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 font-serif text-4xl sm:text-5xl lg:text-7xl font-semibold text-ink hover:text-brick transition-colors">
+                    <span class="font-mono text-sm sm:text-lg text-brass font-normal sm:opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden="true">01</span>
+                    Listings
+                </a>
+                <a href="#process" class="drawer-link group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 font-serif text-4xl sm:text-5xl lg:text-7xl font-semibold text-ink hover:text-brick transition-colors">
+                    <span class="font-mono text-sm sm:text-lg text-brass font-normal sm:opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden="true">02</span>
+                    How it works
+                </a>
+                <a href="#agents" class="drawer-link group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 font-serif text-4xl sm:text-5xl lg:text-7xl font-semibold text-ink hover:text-brick transition-colors">
+                    <span class="font-mono text-sm sm:text-lg text-brass font-normal sm:opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden="true">03</span>
+                    Agents
+                </a>
+                <a href="#stats" class="drawer-link group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 font-serif text-4xl sm:text-5xl lg:text-7xl font-semibold text-ink hover:text-brick transition-colors">
+                    <span class="font-mono text-sm sm:text-lg text-brass font-normal sm:opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden="true">04</span>
+                    About us
+                </a>
+            </nav>
+
+            <div class="mt-12 lg:mt-0 w-full max-w-sm lg:w-1/3 hidden md:block" aria-hidden="true">
+                <div class="p-6 sm:p-8 border border-line rounded-sm bg-white shadow-draft relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-blueprint-grid opacity-30"></div>
+                    <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" class="relative z-10 w-full group-hover:scale-105 transition-transform duration-700">
+                        <g fill="none" stroke="#1A4789" stroke-width="1.5" opacity="0.8">
+                            <rect x="20" y="30" width="150" height="160"/>
+                            <line x1="95" y1="30" x2="95" y2="190"/>
+                            <line x1="20" y1="110" x2="170" y2="110"/>
+                            <rect x="185" y="60" width="95" height="100"/>
+                            <path d="M20 30 L5 15 M170 30 L185 15" stroke-dasharray="2,2"/>
+                        </g>
+                        <g fill="#B4432C">
+                            <circle cx="40" cy="50" r="3"/>
+                            <circle cx="150" cy="170" r="3"/>
+                        </g>
+                        <text x="20" y="205" font-family="IBM Plex Mono" font-size="10" fill="#2C4059" letter-spacing="1">FLOOR PLAN · UNIT 02</text>
+                    </svg>
+                    <p class="font-mono text-xs text-ink-soft mt-4 relative z-10 border-t border-line pt-4">Every listing ships with a verified floor plan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main">
+        <section class="relative pt-28 sm:pt-36 pb-16 lg:pt-48 lg:pb-0 overflow-hidden bg-blueprint-grid" id="top">
+            <!-- Decorative Crosshairs -->
+            <div class="absolute top-24 left-6 sm:left-10 w-4 h-4 border-l border-t border-blueprint opacity-40" aria-hidden="true"></div>
+            <div class="absolute bottom-40 right-6 sm:right-10 w-4 h-4 border-r border-b border-blueprint opacity-40" aria-hidden="true"></div>
+            
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 relative z-10">
+                <div class="max-w-3xl reveal">
+                    <span class="inline-flex items-center gap-3 font-mono text-[10px] sm:text-xs lg:text-sm tracking-[0.2em] uppercase text-blueprint-deep mb-4 sm:mb-6">
+                        <span class="w-6 sm:w-8 h-[2px] bg-brick inline-block" aria-hidden="true"></span>
+                        Listings verified street by street
+                    </span>
+                    
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.1] sm:leading-[1.05] text-ink mb-6 sm:mb-8 tracking-tight">
+                        Find your next <br />
+                        <span class="relative inline-block text-white italic bg-brick px-3 sm:px-4 pb-1 sm:pb-2 pt-1 shadow-[2px_2px_0px_0px_rgba(13,24,40,1)] sm:shadow-solid mt-1 sm:mt-2 transform -rotate-1">address.</span>
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg lg:text-xl text-ink-soft max-w-2xl mb-8 sm:mb-10 leading-relaxed font-light">
+                        Meridian connects you to homes the way a good contractor reads a building: the bones, the light, the neighbors, the walk to the train. <strong class="font-medium text-ink">No stock photography, no guesswork.</strong>
+                    </p>
+                    
+                    <!-- Mobile Optimized Button Stack -->
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
+                        <a href="#listings" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-blueprint hover:bg-blueprint-deep text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm font-semibold text-base sm:text-lg transition-all shadow-[2px_2px_0px_0px_rgba(13,24,40,1)] sm:shadow-solid hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none">
+                            View 12,400+ listings
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <a href="#process" class="w-full sm:w-auto inline-flex justify-center items-center px-6 sm:px-8 py-3.5 sm:py-4 font-mono text-xs sm:text-sm tracking-wider uppercase font-semibold text-ink border border-ink hover:bg-ink hover:text-paper transition-colors rounded-sm">
+                            How it works
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Parallax Skyline -->
+                <div class="relative mt-16 sm:mt-20 h-[180px] sm:h-[250px] lg:h-[350px] w-full" aria-hidden="true" id="heroSkyline">
+                    <svg class="absolute bottom-0 w-[150%] sm:w-[120%] -left-[25%] sm:-left-[10%] h-full" viewBox="0 0 1200 250" preserveAspectRatio="none">
+                        <!-- Background Buildings -->
+                        <g fill="#2C4059" opacity="0.6">
+                            <rect x="0" y="120" width="90" height="130"/>
+                            <rect x="230" y="140" width="70" height="110"/>
+                            <rect x="420" y="50" width="60" height="200"/>
+                            <polygon points="450,50 480,50 465,20"/>
+                            <rect x="640" y="85" width="85" height="165"/>
+                            <rect x="840" y="40" width="70" height="210"/>
+                            <rect x="1060" y="150" width="140" height="100"/>
+                        </g>
+                        <!-- Foreground Buildings -->
+                        <g fill="#0D1828">
+                            <rect x="100" y="70" width="120" height="180"/>
+                            <rect x="310" y="100" width="100" height="150"/>
+                            <rect x="490" y="130" width="140" height="120"/>
+                            <rect x="735" y="160" width="95" height="90"/>
+                            <rect x="920" y="105" width="130" height="145"/>
+                        </g>
+                        <!-- Windows (Twinkling) -->
+                        <g fill="#DFBD73" class="animate-twinkle">
+                            <rect x="115" y="90" width="12" height="16"/><rect x="145" y="90" width="12" height="16"/><rect x="175" y="90" width="12" height="16"/>
+                            <rect x="115" y="130" width="12" height="16"/><rect x="145" y="130" width="12" height="16"/><rect x="175" y="130" width="12" height="16"/>
+                            <rect x="325" y="120" width="10" height="14"/><rect x="355" y="120" width="10" height="14"/><rect x="385" y="120" width="10" height="14"/>
+                            <rect x="510" y="150" width="10" height="14"/><rect x="540" y="150" width="10" height="14"/><rect x="570" y="150" width="10" height="14"/><rect x="600" y="150" width="10" height="14"/>
+                            <rect x="940" y="130" width="10" height="14"/><rect x="970" y="130" width="10" height="14"/><rect x="1000" y="130" width="10" height="14"/>
+                        </g>
+                    </svg>
+                    <!-- Ground Line -->
+                    <div class="absolute bottom-0 left-0 w-full h-[3px] bg-brick z-10"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 sm:py-24 lg:py-32 border-b border-line bg-white relative" id="process">
+            <div class="absolute top-0 bottom-0 left-4 sm:left-1/2 sm:-translate-x-1/2 w-px bg-line opacity-30" aria-hidden="true"></div>
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 relative">
+                
+                <div class="max-w-xl mb-12 sm:mb-16 lg:mb-24 reveal ml-6 sm:ml-0">
+                    <span class="inline-flex items-center gap-2 sm:gap-3 font-mono text-[10px] sm:text-xs uppercase text-brick mb-3 sm:mb-4 tracking-widest">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" stroke="currentColor" stroke-width="2"/></svg>
+                        The build sequence
+                    </span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink">Three steps, in order, same as any good project.</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 md:gap-8 pl-6 sm:pl-0">
+                    <!-- Step 1 -->
+                    <div class="relative reveal delay-100">
+                        <div class="dim-line-wrapper relative pt-6 sm:pt-8">
+                            <div class="absolute top-0 left-0 w-[2px] h-4 bg-blueprint" aria-hidden="true"></div>
+                            <span class="font-mono text-[10px] sm:text-xs font-semibold text-blueprint bg-white pr-4 relative z-10 uppercase tracking-wider">Phase 01 · 0–2 days</span>
+                        </div>
+                        <h3 class="font-serif text-xl sm:text-2xl font-bold mt-4 sm:mt-6 mb-2 sm:mb-3">Search by how you live</h3>
+                        <p class="text-sm sm:text-base text-ink-soft leading-relaxed">Filter by commute time, natural light angles, neighborhood noise levels, and exact square footage — not just bedrooms and price.</p>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="relative reveal delay-200">
+                        <div class="dim-line-wrapper relative pt-6 sm:pt-8">
+                            <div class="absolute top-0 left-0 w-[2px] h-4 bg-blueprint" aria-hidden="true"></div>
+                            <span class="font-mono text-[10px] sm:text-xs font-semibold text-blueprint bg-white pr-4 relative z-10 uppercase tracking-wider">Phase 02 · 2–7 days</span>
+                        </div>
+                        <h3 class="font-serif text-xl sm:text-2xl font-bold mt-4 sm:mt-6 mb-2 sm:mb-3">Tour with the plan</h3>
+                        <p class="text-sm sm:text-base text-ink-soft leading-relaxed">Every physical or virtual visit comes with a verified, measured floor plan in hand, so nothing feels surprisingly small in person.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative reveal delay-300">
+                        <div class="dim-line-wrapper relative pt-6 sm:pt-8">
+                            <div class="absolute top-0 left-0 w-[2px] h-4 bg-blueprint" aria-hidden="true"></div>
+                            <span class="font-mono text-[10px] sm:text-xs font-semibold text-blueprint bg-white pr-4 relative z-10 uppercase tracking-wider">Phase 03 · 7–30 days</span>
+                        </div>
+                        <h3 class="font-serif text-xl sm:text-2xl font-bold mt-4 sm:mt-6 mb-2 sm:mb-3">Move in, key in hand</h3>
+                        <p class="text-sm sm:text-base text-ink-soft leading-relaxed">Paperwork, deposit, and handover are tracked via our portal until the door is actually yours. No hidden broker fees.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-20 sm:py-24 lg:py-32 bg-paper-dark" id="listings">
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-16 reveal">
+                    <div>
+                        <span class="font-mono text-[10px] sm:text-xs uppercase text-blueprint-deep mb-2 sm:mb-3 tracking-widest block">Interactive Mapping</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink">Explore the Grid</h2>
+                    </div>
+                    <a href="#agents" class="inline-flex items-center gap-2 font-mono text-xs sm:text-sm uppercase tracking-wider font-semibold text-brick hover:text-brick-deep group self-start md:self-auto p-2 -ml-2 md:ml-0">
+                        Enter full map view
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+
+                <!-- Aspect ratio optimized for mobile (taller to fit pins comfortably) -->
+                <div class="relative w-full aspect-[4/5] sm:aspect-square md:aspect-[21/9] bg-white border border-line rounded-sm shadow-sm overflow-hidden flex items-center justify-center reveal delay-100 group hover:shadow-draft transition-shadow duration-500">
+                    
+                    <!-- Base Map Grid & Abstract Streets -->
+                    <div class="absolute inset-0 bg-blueprint-grid opacity-30" aria-hidden="true"></div>
+                    <svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                        <path d="M-100 150 Q 200 100 400 250 T 900 150" fill="none" stroke="#1A4789" stroke-width="8" stroke-linecap="round"/>
+                        <path d="M150 -50 L 150 450 M 350 -50 L 300 450 M 600 -50 L 650 450" fill="none" stroke="#1A4789" stroke-width="2" stroke-dasharray="8 8"/>
+                        <rect x="200" y="80" width="60" height="40" fill="none" stroke="#1A4789" stroke-width="1.5"/>
+                        <rect x="280" y="100" width="40" height="70" fill="none" stroke="#1A4789" stroke-width="1.5"/>
+                        <rect x="450" y="280" width="80" height="60" fill="none" stroke="#1A4789" stroke-width="1.5"/>
+                        <rect x="550" y="220" width="50" height="50" fill="none" stroke="#1A4789" stroke-width="1.5"/>
+                    </svg>
+
+                    <!-- Overlay Gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-paper/80 via-transparent to-transparent pointer-events-none" aria-hidden="true"></div>
+
+                    <!-- Map Pins (Adjusted positions to avoid overlap on mobile) -->
+                    <div class="absolute top-[25%] sm:top-[35%] left-[20%] sm:left-[25%] group/pin cursor-crosshair">
+                        <div class="relative flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8">
+                            <span class="absolute inline-flex w-full h-full rounded-full bg-brick opacity-40 animate-ping"></span>
+                            <span class="relative inline-flex rounded-full w-3 h-3 sm:w-4 sm:h-4 bg-brick"></span>
+                        </div>
+                        <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-ink text-white font-mono text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 whitespace-nowrap opacity-0 translate-y-2 group-hover/pin:opacity-100 group-hover/pin:translate-y-0 transition-all pointer-events-none shadow-solid z-20">
+                            West Loop - 42
+                        </div>
+                    </div>
+
+                    <div class="absolute top-[65%] sm:top-[60%] left-[65%] sm:left-[55%] group/pin cursor-crosshair">
+                        <div class="relative flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8">
+                            <span class="absolute inline-flex w-full h-full rounded-full bg-blueprint opacity-40 animate-ping" style="animation-delay: 500ms"></span>
+                            <span class="relative inline-flex rounded-full w-3 h-3 sm:w-4 sm:h-4 bg-blueprint"></span>
+                        </div>
+                        <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-ink text-white font-mono text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 whitespace-nowrap opacity-0 translate-y-2 group-hover/pin:opacity-100 group-hover/pin:translate-y-0 transition-all pointer-events-none shadow-solid z-20">
+                            Northside - 18
+                        </div>
+                    </div>
+
+                    <div class="absolute top-[15%] sm:top-[20%] right-[15%] sm:right-[30%] group/pin cursor-crosshair">
+                        <div class="relative flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8">
+                            <span class="absolute inline-flex w-full h-full rounded-full bg-brass opacity-40 animate-ping" style="animation-delay: 1000ms"></span>
+                            <span class="relative inline-flex rounded-full w-3 h-3 sm:w-4 sm:h-4 bg-brass"></span>
+                        </div>
+                        <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-ink text-white font-mono text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 whitespace-nowrap opacity-0 translate-y-2 group-hover/pin:opacity-100 group-hover/pin:translate-y-0 transition-all pointer-events-none shadow-solid z-20">
+                            Heights - 6
+                        </div>
+                    </div>
+
+                    <!-- Center CTA Button -->
+                    <div class="relative z-10 flex flex-col items-center px-4 w-full sm:w-auto">
+                        <a href="#listings" class="w-full sm:w-auto text-center bg-ink hover:bg-blueprint-deep text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm font-mono text-xs sm:text-sm font-semibold uppercase tracking-widest transition-all shadow-draft hover:shadow-none hover:translate-y-1 hover:scale-95 duration-300">
+                            Open Interactive Map
+                        </a>
+                        <span class="mt-3 sm:mt-4 font-mono text-[10px] sm:text-xs text-ink-soft bg-white/90 px-3 py-1 rounded backdrop-blur-sm">View all 12,400+ properties</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 sm:py-24 bg-draft-pattern bg-paper border-y border-line" id="agents">
+            <div class="max-w-4xl mx-auto px-5 sm:px-6 text-center reveal">
+                <div class="inline-block bg-white border border-line px-6 py-8 sm:px-8 sm:py-10 shadow-draft w-full sm:w-auto">
+                    <span class="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-brick mb-3 sm:mb-4 block">For agents &amp; owners</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ink mb-4 sm:mb-6">Your foundation starts here.</h2>
+                    <p class="text-sm sm:text-base lg:text-lg text-ink-soft max-w-xl mx-auto mb-6 sm:mb-8">
+                        List a property in minutes. Our system automatically generates a measured floor plan from your 3D scan and handles tenant messaging—no extra scaffolding required.
+                    </p>
+                    <a href="#footer" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-ink hover:bg-blueprint-deep text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm font-semibold text-xs sm:text-sm transition-colors uppercase tracking-wider font-mono">
+                        Start Listing
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer id="footer" class="bg-ink text-paper relative overflow-hidden pt-16 sm:pt-20 pb-8">
+            
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12 sm:mb-16">
+                
+                <div class="lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-4 sm:mb-6">
+                        <svg class="w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 48 48" aria-hidden="true">
+                            <polygon points="6,17 24,6 42,17" fill="#F4F4F0"/>
+                            <rect x="9" y="17" width="30" height="26" rx="1" fill="none" stroke="#F4F4F0" stroke-width="2.4"/>
+                            <rect x="21" y="33" width="6" height="10" fill="#C19B48"/>
+                            <rect x="13" y="21" width="6" height="6" fill="#1A4789"/>
+                            <rect x="29" y="21" width="6" height="6" fill="#1A4789"/>
+                        </svg>
+                        <span class="font-serif font-bold text-lg sm:text-xl text-paper">Meridian</span>
+                    </div>
+                    <p class="text-paper/70 text-xs sm:text-sm leading-relaxed max-w-xs">
+                        A listing platform built like a good building: honest bones, clear plans, no surprises at closing.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-mono text-[10px] sm:text-xs text-brass uppercase tracking-widest mb-4 sm:mb-6">Explore</h4>
+                    <ul class="flex flex-col gap-3 sm:gap-4 text-sm text-paper/80">
+                        <li><a href="#listings" class="hover:text-brass transition-colors inline-block py-1 sm:py-0">Live Listings</a></li>
+                        <li><a href="#process" class="hover:text-brass transition-colors inline-block py-1 sm:py-0">How it works</a></li>
+                        <li><a href="#agents" class="hover:text-brass transition-colors inline-block py-1 sm:py-0">List a property</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-mono text-[10px] sm:text-xs text-brass uppercase tracking-widest mb-4 sm:mb-6">Company</h4>
+                    <ul class="flex flex-col gap-3 sm:gap-4 text-sm text-paper/80">
+                        <li><a href="#" class="hover:text-brass transition-colors inline-block py-1 sm:py-0">About Us</a></li>
+                        <li><a href="#" class="hover:text-brass transition-colors inline-block py-1 sm:py-0">Careers (We're hiring)</a></li>
+                        <li><a href="#" class="hover:text-brass transition-colors inline-block py-1 sm:py-0">Press & Media</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-mono text-[10px] sm:text-xs text-brass uppercase tracking-widest mb-4 sm:mb-6">Stats</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <span class="block font-serif text-2xl sm:text-3xl font-bold text-white mb-1">12k+</span>
+                            <span class="font-mono text-[9px] sm:text-[10px] text-paper/50 uppercase tracking-wider">Properties</span>
+                        </div>
+                        <div>
+                            <span class="block font-serif text-2xl sm:text-3xl font-bold text-white mb-1">63</span>
+                            <span class="font-mono text-[9px] sm:text-[10px] text-paper/50 uppercase tracking-wider">Cities</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 border-t border-white/10 pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 text-center sm:text-left">
+                <span class="font-mono text-[10px] sm:text-xs text-paper/50">&copy; 2026 Meridian, Inc. All rights reserved.</span>
+                <div class="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6 font-mono text-[10px] sm:text-xs text-paper/50">
+                    <a href="#" class="hover:text-white transition-colors p-1 sm:p-0">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors p-1 sm:p-0">Terms</a>
+                    <span class="p-1 sm:p-0">Rev. Blueprint C</span>
+                </div>
+            </div>
+
+            <!-- Huge Watermark Background -->
+            <div class="absolute bottom-0 right-0 font-serif text-[20vw] sm:text-[15vw] font-bold text-white/5 leading-none pointer-events-none translate-y-1/4 select-none" aria-hidden="true">
+                MRDN
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        (function() {
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                // --- Navigation Drawer & Hamburger Logic ---
+                const toggle = document.getElementById('menuToggle');
+                const menuLabel = document.getElementById('menuLabel');
+                const drawer = document.getElementById('siteDrawer');
+                const header = document.getElementById('siteHeader');
+                
+                function closeDrawer() {
+                    if(!toggle) return;
+                    toggle.setAttribute('aria-expanded', 'false');
+                    drawer.classList.remove('translate-y-0');
+                    drawer.classList.add('-translate-y-full');
+                    drawer.setAttribute('aria-hidden', 'true');
+                    header.classList.remove('bg-transparent', 'border-transparent');
+                    header.classList.add('bg-paper/80', 'backdrop-blur-md', 'border-line');
+                    document.body.style.overflow = '';
+                    toggle.classList.remove('is-active');
+                    
+                    // Update text label to "Menu"
+                    if(menuLabel) menuLabel.textContent = 'Menu';
+                }
+                
+                function openDrawer() {
+                    if(!toggle) return;
+                    toggle.setAttribute('aria-expanded', 'true');
+                    drawer.classList.remove('-translate-y-full');
+                    drawer.classList.add('translate-y-0');
+                    drawer.setAttribute('aria-hidden', 'false');
+                    header.classList.add('bg-transparent', 'border-transparent');
+                    header.classList.remove('bg-paper/80', 'backdrop-blur-md', 'border-line');
+                    document.body.style.overflow = 'hidden'; 
+                    toggle.classList.add('is-active');
+                    
+                    // Update text label to "Close" explicitly
+                    if(menuLabel) menuLabel.textContent = 'Close';
+                }
+
+                if (toggle && drawer && header) {
+                    toggle.addEventListener('click', () => {
+                        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+                        isOpen ? closeDrawer() : openDrawer();
+                    });
+
+                    // Close on link click (especially helpful on mobile)
+                    document.querySelectorAll('.drawer-link').forEach(link => {
+                        link.addEventListener('click', closeDrawer);
+                    });
+
+                    // Close on escape key
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape') closeDrawer();
+                    });
+                }
+
+                // --- Scroll Reveal Animations (Intersection Observer) ---
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px 0px -50px 0px', // Trigger slightly earlier on mobile
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            
+                            // Trigger dimension line drawing specifically if it's a step
+                            const dimLine = entry.target.querySelector('.dim-line-wrapper');
+                            if(dimLine) dimLine.classList.add('active');
+
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.reveal').forEach((el) => {
+                    observer.observe(el);
+                });
+
+                // --- Hero Parallax Effect (Debounced for performance) ---
+                const skyline = document.getElementById('heroSkyline');
+                let ticking = false;
+                
+                if (skyline && window.matchMedia("(hover: hover)").matches) {
+                    // Only run parallax on devices with a mouse (hover capabilities)
+                    window.addEventListener('mousemove', (e) => {
+                        if(window.scrollY < window.innerHeight && !ticking) {
+                            window.requestAnimationFrame(() => {
+                                const mouseX = e.clientX / window.innerWidth - 0.5;
+                                const mouseY = e.clientY / window.innerHeight - 0.5;
+                                skyline.style.transform = `translate(${mouseX * 20}px, ${mouseY * 10}px)`;
+                                ticking = false;
+                            });
+                            ticking = true;
+                        }
+                    });
+                }
+                
+                // Header scroll effect
+                if (header) {
+                    window.addEventListener('scroll', () => {
+                        if(window.scrollY > 20) {
+                           header.classList.add('shadow-sm');
+                        } else {
+                           header.classList.remove('shadow-sm');
+                        }
+                    }, { passive: true });
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

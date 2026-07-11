@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0D1828;
+  --color-ink-soft: #2C4059;
+  --color-paper: #F4F4F0;
+  --color-paper-dark: #E8E8E3;
+  --color-blueprint: #1A4789;
+  --color-blueprint-deep: #112F5C;
+  --color-brick: #B4432C;
+  --color-brick-deep: #8A3321;
+  --color-brass: #C19B48;
+  --color-brass-light: #DFBD73;
+  --color-line: #D1CEC1;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Zilla Slab', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --shadow-draft: 0 25px 50px -12px rgba(13, 24, 40, 0.25);
+  --shadow-solid: 4px 4px 0px 0px rgba(13, 24, 40, 1);
+}
+
+@layer base {
+  body {
+    cursor: crosshair;
+    background-color: #F4F4F0;
+    color: #0D1828;
+  }
+  
+  a, button, .interactive {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+}
+
+/* Custom Utilities */
+.bg-blueprint-grid {
+  background-image:
+    linear-gradient(rgba(26, 71, 137, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 71, 137, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center top;
+}
+
+.bg-draft-pattern {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(13, 24, 40, 0.03) 0,
+    rgba(13, 24, 40, 0.03) 2px,
+    transparent 2px,
+    transparent 8px
+  );
+}
+
+/* Smooth transitions */
+.drawer-link {
+  transition: color 0.3s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F4F0;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1CEC1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2C4059;
+}

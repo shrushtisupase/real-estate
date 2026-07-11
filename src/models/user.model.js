@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema(
       enum: ["buyer", "agent", "admin"],
       default: "buyer",
     },
+
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
