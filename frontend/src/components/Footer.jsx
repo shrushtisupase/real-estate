@@ -24,9 +24,9 @@ export default function Footer() {
         <div>
           <h4 class="font-mono text-[10px] sm:text-xs text-brass uppercase tracking-widest mb-4">Explore</h4>
           <ul className="flex flex-col gap-2 text-xs sm:text-sm text-paper/80">
-            <li><a href="#listings" className="hover:text-brass transition-colors py-1 inline-block">Live Listings</a></li>
-            <li><a href="#process" className="hover:text-brass transition-colors py-1 inline-block">How it works</a></li>
-            <li><a href="#agents" className="hover:text-brass transition-colors py-1 inline-block">List a property</a></li>
+            <li><a href="/#listings-grid" className="hover:text-brass transition-colors py-1 inline-block">Live Listings</a></li>
+            <li><a href="/#process" className="hover:text-brass transition-colors py-1 inline-block">How it works</a></li>
+            <li><a href="/#agents" className="hover:text-brass transition-colors py-1 inline-block">List a property</a></li>
           </ul>
         </div>
 

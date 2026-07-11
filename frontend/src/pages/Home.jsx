@@ -16,6 +16,23 @@ export default function Home() {
     fetchProperties({ status, propertyType: propertyType || undefined, bedrooms: bedrooms || undefined });
   }, [status, propertyType, bedrooms]);
 
+  useEffect(() => {
+    const handleHashScroll = () => {
+      if (window.location.hash) {
+        const id = window.location.hash.substring(1);
+        const element = document.getElementById(id);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      }
+    };
+    handleHashScroll();
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
+  }, [properties]);
+
   // Filter local search term
   const filteredProperties = properties.filter((p) => {
     const term = searchTerm.toLowerCase();
