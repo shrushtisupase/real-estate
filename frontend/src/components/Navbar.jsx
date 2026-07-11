@@ -85,13 +85,16 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            <a
-              href="#listings-grid"
-              onClick={handleScrollTo('listings-grid')}
-              className="font-mono text-xs uppercase tracking-widest text-ink-soft hover:text-brick relative p-2 transition-colors duration-200 after:absolute after:bottom-1 after:left-2 after:right-2 after:h-[2px] after:bg-brick after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+            <Link
+              to="/listings"
+              className={`font-mono text-xs uppercase tracking-widest hover:text-brick relative p-2 transition-colors duration-200 ${
+                isLinkActive('/listings') ? 'text-brick font-semibold' : 'text-ink-soft'
+              } after:absolute after:bottom-1 after:left-2 after:right-2 after:h-[2px] after:bg-brick ${
+                isLinkActive('/listings') ? 'after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'
+              } after:transition-transform after:duration-300`}
             >
               Listings
-            </a>
+            </Link>
             
             <a
               href="#process"
@@ -211,14 +214,16 @@ export default function Navbar() {
                 <span className="font-mono text-xs text-brass">01</span>
                 Home
               </Link>
-              <a
-                href="#listings-grid"
-                onClick={handleScrollTo('listings-grid')}
-                className="font-serif text-2xl font-bold flex items-baseline gap-3 text-ink hover:text-brick transition-colors"
+              <Link
+                to="/listings"
+                onClick={() => setIsOpen(false)}
+                className={`font-serif text-2xl font-bold flex items-baseline gap-3 hover:text-brick transition-colors ${
+                  isLinkActive('/listings') ? 'text-brick' : 'text-ink'
+                }`}
               >
                 <span className="font-mono text-xs text-brass">02</span>
                 Listings
-              </a>
+              </Link>
               <a
                 href="#process"
                 onClick={handleScrollTo('process')}
@@ -260,27 +265,56 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* Quick Info / Blueprint Specs */}
+          {/* Blueprint Specs Visual */}
           <div className="space-y-4 pt-6 border-t border-line">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-ink-soft opacity-60">Meridian HQ</span>
-            <div className="space-y-3 text-xs font-mono text-ink-soft">
-              <div className="flex items-center gap-2.5">
-                <MapPin size={14} className="text-blueprint" />
-                <span>120 Wall Street, New York, NY</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Phone size={14} className="text-blueprint" />
-                <span>+1 (212) 555-0190</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Mail size={14} className="text-blueprint" />
-                <span>office@meridian.com</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Clock size={14} className="text-blueprint" />
-                <span>Mon-Fri · 09:00 - 18:00 EST</span>
-              </div>
+            <div>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-brick block mb-1">FOUNDATION DECK // GRID 01</span>
+              <h4 className="font-serif text-sm font-bold text-ink">Building brick by brick.</h4>
             </div>
+            
+            <svg className="w-full h-32 border border-line/50 bg-paper-dark/30 relative overflow-hidden" viewBox="0 0 300 120">
+              <defs>
+                <pattern id="brick-grid" width="12" height="12" patternUnits="userSpaceOnUse">
+                  <path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(13, 24, 40, 0.05)" strokeWidth="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#brick-grid)" />
+              
+              {/* Row 1 (Bricks) */}
+              <rect x="25" y="80" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="80" y="80" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="135" y="80" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="190" y="80" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="245" y="80" width="35" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" strokeDasharray="2,2" />
+              
+              {/* Row 2 (Stacked bricks) */}
+              <rect x="10" y="55" width="40" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" strokeDasharray="2,2" />
+              <rect x="55" y="55" width="50" height="20" fill="none" stroke="#B4432C" strokeWidth="1.5" />
+              <rect x="110" y="55" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="165" y="55" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="220" y="55" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="275" y="55" width="15" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" strokeDasharray="2,2" />
+
+              {/* Row 3 (Top stack) */}
+              <rect x="35" y="30" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="90" y="30" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="145" y="30" width="50" height="20" fill="none" stroke="#B4432C" strokeWidth="1.5" />
+              <rect x="200" y="30" width="50" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+              <rect x="255" y="30" width="20" height="20" fill="none" stroke="#1A4789" strokeWidth="1.2" />
+
+              {/* Blueprint Center Axis Line */}
+              <line x1="150" y1="10" x2="150" y2="110" stroke="#B4432C" strokeWidth="1" strokeDasharray="4,4" />
+              <circle cx="150" cy="65" r="3" fill="#B4432C" />
+
+              {/* Drafting text label */}
+              <text x="155" y="20" fontFamily="monospace" fontSize="6" fill="#B4432C" fontWeight="bold">ALIGNMENT INDEX</text>
+              
+              {/* Measurement indicators */}
+              <line x1="55" y1="108" x2="105" y2="108" stroke="#1A4789" strokeWidth="0.8" />
+              <line x1="55" y1="105" x2="55" y2="111" stroke="#1A4789" strokeWidth="0.8" />
+              <line x1="105" y1="105" x2="105" y2="111" stroke="#1A4789" strokeWidth="0.8" />
+              <text x="80" y="104" fontFamily="monospace" fontSize="6" fill="#1A4789" textAnchor="middle">50.00mm</text>
+            </svg>
           </div>
         </div>
 
@@ -311,7 +345,7 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="text-center font-mono text-[9px] text-ink-soft opacity-60">
-              © {new Date().getFullYear()} Meridian Real Estate
+              Built by Shrushti Supase
             </div>
           )}
         </div>
